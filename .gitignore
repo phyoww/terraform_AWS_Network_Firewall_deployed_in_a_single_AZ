@@ -1,0 +1,7 @@
+
+itestkeypair.pem
+terraform.tfstate
+.terraform
+.terraform.lock.hcl
+terraform.tfstate.backup
+
