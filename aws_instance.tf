@@ -1,7 +1,7 @@
 resource "aws_instance" "web_instance" {
   ami           = "ami-03e312c9b09e29831"
   instance_type = "t2.micro"
-  key_name      = "testkeypair"
+  key_name      = "testing"
   
   subnet_id                   = aws_subnet.cloudideastar_public_subnet.id
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
