@@ -5,7 +5,7 @@ Update AWS Network Firewall Soon.
 2. Download the keypair and generate the keygen on same folder.
   - ssh-keygen -y -f testing.pem
 
-##After spin up , need to update as below##
+## After spin up , need to update as below
 
 1. IGW Route table associate Edge (Internet Gateway)
 2.Endpoint -copy the FW subnet interface ID
