@@ -13,3 +13,5 @@
 4.Change Default route to FW ID from IGW on EC2 public route table
 
 ![header image](cloudideastar_nfw.jpg)
+
+![header image](AWS_NFW.png)
