@@ -17,6 +17,7 @@
   - terraform plan
   - terraform apply -auto-approve
   - terraform destroy -auto-approve
+  
 ![header image](cloudideastar_nfw.jpg)
 
 ![header image](AWS_NFW.png)
