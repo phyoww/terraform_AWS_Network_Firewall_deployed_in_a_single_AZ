@@ -1,4 +1,4 @@
-Update AWS Network Firewall Soon.
+## Generate the public key
 
 
 1. Create keypair on aws web - "testing"
