@@ -12,6 +12,11 @@
 3. Add EC2 IP/24 to FW interface on IGW Route Table
 4. Change Default route to FW ID from IGW on EC2 public route table
 
+  - terraform init
+  - terraform validate
+  - terraform plan
+  - terraform apply -auto-approve
+  - terraform destroy -auto-approve
 ![header image](cloudideastar_nfw.jpg)
 
 ![header image](AWS_NFW.png)
