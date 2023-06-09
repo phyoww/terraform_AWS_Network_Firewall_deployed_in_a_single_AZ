@@ -30,13 +30,15 @@ sudo service iptables restart
 3. Add EC2 IP/24 to FW interface on IGW Route Table
 4. Change Default route to FW subnet interface ID from IGW on EC2 public route table
 
+### Command to Deploy
+```bash
   - terraform init
   - terraform validate
   - terraform plan
   - terraform apply -auto-approve
   - Remove Step -3 configuration, point VCPE (Firewawll Interface ID)
   - terraform destroy -auto-approve
-  
+```  
 ![header image](cloudideastar_nfw.jpg)
 
 ![header image](AWS_NFW.png)
