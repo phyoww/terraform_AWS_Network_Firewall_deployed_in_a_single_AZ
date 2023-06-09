@@ -27,7 +27,7 @@
 
 
 ## SSH to EC2 and Install nginx on EC2 amazon linux 2023
-
+```bash
 sudo yum search nginx
 sudo yum info nginx
 sudo yum install nginx
@@ -43,7 +43,7 @@ sudo vi /etc/sysconfig/iptables
 -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
 
 sudo service iptables restart
-
+```
 ## test before/after  STEP 2.
 1. curl http://10.0.1.xxx/
 2. curl http://public_ip
