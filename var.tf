@@ -1,6 +1,6 @@
 variable "firewall-name" {
   type    = string
-  default = "test-aws-network-firewall"
+  default = "Cloudideastar-aws-network-firewall"
 }
 
 #variable "vpc-name" {
