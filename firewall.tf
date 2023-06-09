@@ -18,12 +18,12 @@ resource "aws_networkfirewall_firewall_policy" "cloudideastar-firewall-policy" {
       resource_arn = aws_networkfirewall_rule_group.pass_ssh_traffic_fw_rule_group.arn
     }    
 
-#    stateful_rule_group_reference {
-#      resource_arn = aws_networkfirewall_rule_group.deny-http.arn
-#    }
-#    stateful_rule_group_reference {
-#      resource_arn = aws_networkfirewall_rule_group.deny-https-domains.arn
-#    }
+    stateful_rule_group_reference {
+      resource_arn = aws_networkfirewall_rule_group.deny-http.arn
+    }
+    stateful_rule_group_reference {
+      resource_arn = aws_networkfirewall_rule_group.deny-https-domains.arn
+    }
     stateful_rule_group_reference {
       resource_arn = aws_networkfirewall_rule_group.deny-ssh.arn
     }
@@ -41,3 +41,4 @@ resource "aws_networkfirewall_firewall" "NFW" {
   }
 #  depends_on = [aws_vpc.cloudideastar_custom_vpc.id]
 }
+
