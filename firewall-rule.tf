@@ -85,71 +85,77 @@ resource "aws_networkfirewall_rule_group" "pass_ssh_traffic_fw_rule_group" {
 
 }
 
-#resource "aws_networkfirewall_rule_group" "deny-http-domains" {
-#  capacity = 100
-#  name     = "deny-http-domains"
-#  type     = "STATEFUL"
-#  rule_group {
-#    rules_source {
-#      rules_source_list {
-#        generated_rules_type = "DENYLIST"
-#        target_types         = ["HTTP_HOST"]
-#        targets              = var.http-domains-to-deny
-#      }
-#    }
-#  }
+resource "aws_networkfirewall_rule_group" "deny-http-domains" {
+  capacity = 100
+  name     = "deny-http-domains"
+  type     = "STATEFUL"
+  rule_group {
+    rules_source {
+      rules_source_list {
+        generated_rules_type = "DENYLIST"
+        target_types         = ["HTTP_HOST"]
+        targets              = [
+          "info.cern.ch",
+          ".neverssl.com"
+        ]
+      }
+    }
+  }
 
-# tags = {
-#    "Name" = "deny-http-domains"
-#  }
-#}
+ tags = {
+    "Name" = "deny-http-domains"
+  }
+}
 
-#resource "aws_networkfirewall_rule_group" "deny-https-domains" {
-#  capacity = 100
-#  name     = "deny-https-domains"
-#  type     = "STATEFUL"
-#  rule_group {
-#    rules_source {
-#      rules_source_list {
-#        generated_rules_type = "DENYLIST"
-#        target_types         = ["TLS_SNI"]
-#        targets              = var.https-domains-to-deny
-#      }
-#    }
-#  }
+resource "aws_networkfirewall_rule_group" "deny-https-domains" {
+  capacity = 100
+  name     = "deny-https-domains"
+  type     = "STATEFUL"
+  rule_group {
+    rules_source {
+      rules_source_list {
+        generated_rules_type = "DENYLIST"
+        target_types         = ["HTTP_HOST", "TLS_SNI"]
+        targets              = [
+          ".facebook.com",
+          ".yahoo.com"
+        ]
+      }
+    }
+  }
 
-#  tags = {
-#    "Name" = "deny-https-domains"
-#  }
-#}
+  tags = {
+    "Name" = "deny-https-domains"
+  }
+}
 
-#resource "aws_networkfirewall_rule_group" "deny-http" {
-#  capacity = 100
-#  name     = "deny-http"
-#  type     = "STATEFUL"
-#  rule_group {
-#    rules_source {
-#      stateful_rule {
-#        action = "DROP"
-#        header {
-#          destination      = aws_subnet.application.cidr_block
-#          destination_port = 80
-#          direction        = "ANY"
-#          protocol         = "HTTP"
-#          source           = "0.0.0.0/0"
-#          source_port      = 80
-#       }
-#        rule_option {
-#          keyword = "sid:1"
-#        }
-#      }
-#    }
-#  }
+resource "aws_networkfirewall_rule_group" "deny-http" {
+  capacity = 100
+  name     = "deny-http"
+  type     = "STATEFUL"
+  rule_group {
+    rules_source {
+      stateful_rule {
+        action = "DROP"
+        header {
+          destination      = aws_subnet.cloudideastar_public_subnet.cidr_block
+          destination_port = 80
+          direction        = "ANY"
+          protocol         = "HTTP"
+          source           = "0.0.0.0/0"
+          source_port      = "ANY"
+       }
+        rule_option {
+          keyword = "sid:1"
+        }
+      }
+    }
+  }
 
-#  tags = {
-#    "Name" = "deny-http"
-#  }
-#}
+  tags = {
+    "Name" = "deny-http"
+  }
+}
 
 
 resource "aws_networkfirewall_rule_group" "deny-ssh" {
@@ -179,3 +185,4 @@ resource "aws_networkfirewall_rule_group" "deny-ssh" {
     "Name" = "deny-ssh"
   }
 }
+
