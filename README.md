@@ -10,7 +10,7 @@
 1. IGW Route table associate Edge (Internet Gateway)
 2. Endpoint -copy the FW subnet interface ID
 3. Add EC2 IP/24 to FW interface on IGW Route Table
-4. Change Default route to FW ID from IGW on EC2 public route table
+4. Change Default route to FW subnet interface ID from IGW on EC2 public route table
 
   - terraform init
   - terraform validate
