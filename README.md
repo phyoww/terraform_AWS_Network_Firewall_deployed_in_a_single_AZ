@@ -1,11 +1,11 @@
-## STEP - 1. Generate the public key
+# STEP - 1. Generate the public key
 
 
 1. Create keypair on aws web - "testing"
 2. Download the keypair and generate the keygen on same folder.
   - ssh-keygen -y -f testing.pem
 
-## STEP - 2. After spin up , need to update as below
+# STEP - 2. After spin up , need to update as below
 
 1. IGW Route table associate Edge (Internet Gateway)
 2. Endpoint -copy the FW subnet interface ID
@@ -24,7 +24,9 @@
 
 
 
-# SSH to EC2 and Install nginx on EC2 amazon linux 2023
+
+
+## SSH to EC2 and Install nginx on EC2 amazon linux 2023
 
 sudo yum search nginx
 sudo yum info nginx
