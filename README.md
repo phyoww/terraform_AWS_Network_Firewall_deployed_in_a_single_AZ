@@ -10,18 +10,16 @@
 sudo yum search nginx
 sudo yum info nginx
 sudo yum install nginx
+sudo service nginx status
 sudo service nginx start
 sudo chkconfig nginx on
 
 sudo service nginx status
-sudo service nginx start
+
 pgrep nginx
 ss -tlpn | grep :80
 
-sudo vi /etc/sysconfig/iptables
--A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
 
-sudo service iptables restart
 ```
 # STEP - 3. After spin up , need to update as below
 
