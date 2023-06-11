@@ -23,10 +23,10 @@ ss -tlpn | grep :80
 ```
 # STEP - 3. After spin up , need to update as below
 
-1. IGW Route table associate Edge (Internet Gateway)
-2. Endpoint -copy the FW subnet interface ID
-3. Add EC2 IP/24 to FW interface on IGW Route Table
-4. Change Default route to FW subnet interface ID from IGW on EC2 public route table
+1. Go to Endpoint>subnet -copy the FW subnet's "Network interface ID"
+2. Go to Route table >IGW Route table > Edge associate > Edit edge associate > Check (Attach Internet Gateway)
+3. On IGW Route Table ,Add route EC2 IP/24 to FW interface 
+4. On Public Route Table > Change Default route to FW subnet interface ID from IGW on EC2 public route table <0.0.0.0/0 - vpcexxxx>
 
 ### Command to Deploy
 ```bash
