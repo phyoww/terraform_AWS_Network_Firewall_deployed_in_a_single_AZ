@@ -7,10 +7,10 @@ variable "firewall-name" {
 #  type    = string
 #  default = "test-network-firewall"
 #}
-variable "region" {
-  type    = string
-  default = "us-east-1"
-}
+#variable "region" {
+#  type    = string
+#  default = "us-east-1"
+#}
 
 variable "cidr" {
   type    = string
