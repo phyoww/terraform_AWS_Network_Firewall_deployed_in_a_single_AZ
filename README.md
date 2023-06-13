@@ -18,7 +18,7 @@
   - terraform validate
   - terraform plan
   - terraform apply -auto-approve
-  - Remove Step - 3 configuration, point VCPE (Firewawll subnet Interface ID)
+  - Remove Step - 2 configuration, point VCPE (Firewawll subnet Interface ID)
   - terraform destroy -auto-approve
 ```  
 ![header image](cloudideastar_nfw.jpg)
