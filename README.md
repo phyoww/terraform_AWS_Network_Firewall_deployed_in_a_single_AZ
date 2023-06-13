@@ -5,23 +5,7 @@
 2. Download the keypair and generate the keygen on same folder.
   - ssh-keygen -y -f testing.pem
 
-# STEP - 2. After "terraform apply" SSH to EC2 and Install nginx on EC2 amazon linux 2023
-```bash
-sudo yum search nginx
-sudo yum info nginx
-sudo yum install nginx
-sudo service nginx status
-sudo service nginx start
-sudo chkconfig nginx on
-
-sudo service nginx status
-
-pgrep nginx
-ss -tlpn | grep :80
-
-
-```
-# STEP - 3. After spin up , need to update as below
+# STEP - 2. After spin up , need to update as below
 
 1. Go to Endpoint>subnet -copy the FW subnet's "Network interface ID"
 2. Go to Route table >IGW Route table > Edge associate > Edit edge associate > Check (Attach Internet Gateway) 
@@ -43,7 +27,7 @@ ss -tlpn | grep :80
 
 
 
-## Test before/after  STEP 3.
+## Test before/after  STEP 2.
 1. curl http://10.0.1.xxx/
 2. curl http://public_ip
 3. http://public_ip
