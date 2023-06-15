@@ -23,7 +23,7 @@ resource "aws_instance" "web_instance" {
   connection {
     type = "ssh"
     user = "ec2-user"
-    private_key = file("/testkeypair.pem") #paste your xxx.pem file patch from your pc
+    private_key = file("/testkeypair.pem") #paste your xxx.pem file path from your pc
     host = aws_instance.web_instance.public_ip
   }
 
