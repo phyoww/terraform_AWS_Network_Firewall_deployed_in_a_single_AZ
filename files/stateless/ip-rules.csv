@@ -1,0 +1,4 @@
+unique_description,priority,action,protocol,destination,source
+pass_01,1,pass,1,10.0.0.0/16,42.61.213.90/32
+drop_01,2,drop,1,10.0.101.0/24,0.0.0.0/0
+

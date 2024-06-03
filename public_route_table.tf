@@ -1,14 +1,10 @@
 resource "aws_route_table" "public_rt" {
-  vpc_id = aws_vpc.cloudideastar_custom_vpc.id
+  vpc_id = aws_vpc.cloudideastar_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.cloudideastar_ig.id
-  }
-
-  route {
-    ipv6_cidr_block = "::/0"
-    gateway_id      = aws_internet_gateway.cloudideastar_ig.id
+    #    gateway_id = aws_internet_gateway.cloudideastar_ig.id
+    vpc_endpoint_id = (aws_networkfirewall_firewall.NFW.firewall_status[0].sync_states[*].attachment[0].endpoint_id)[0]
   }
 
   tags = {

@@ -1,51 +1,26 @@
-#resource "aws_networkfirewall_rule_group" "allow-local" {
-#  capacity = 1000
-#  name     = "allow-local-ranges"
-#  type     = "STATELESS"
-#  rule_group {
-#    rules_source {
-#      stateless_rules_and_custom_actions {
-#        stateless_rule {
-#          priority = 5
-#          rule_definition {
-#            actions = ["aws:pass"]
-#              source {
-#            match_attributes {
-#                address_definition = "0.0.0.0/0"
-#              }
-#              source {
-#                address_definition = "192.168.0.0/16"
-#              }
-#              destination {
-#                address_definition = "10.0.1.0/24"
-#              }
-#            }
-#          }
-#        }
-#      }
-#    }
-#  }
-#}
-
-resource "aws_networkfirewall_rule_group" "drop_icmp_traffic_fw_rule_group" {
-  name     = "drop-icmp-traffic-fw-rule-group"
+####################################################
+resource "aws_networkfirewall_rule_group" "stateless-ip-rules" {
+  name     = "cloudideastar-stateless-ip-rule-group-lab"
   capacity = 100
   type     = "STATELESS"
 
   rule_group {
     rules_source {
       stateless_rules_and_custom_actions {
-        stateless_rule {
-          priority = 1
-          rule_definition {
-            actions = ["aws:drop"]
-            match_attributes {
-              protocols = [1]
-              source {
-                address_definition = "0.0.0.0/0"
-              }
-              destination {
-                address_definition = "10.0.1.0/24"
+        dynamic "stateless_rule" {
+          for_each = local.stateless_ip_rules_data
+          content {
+            priority = stateless_rule.value.priority
+            rule_definition {
+              actions = ["aws:${stateless_rule.value.action}"]
+              match_attributes {
+                protocols = [stateless_rule.value.protocol]
+                source {
+                  address_definition = stateless_rule.value.source
+                }
+                destination {
+                  address_definition = stateless_rule.value.destination
+                }
               }
             }
           }
@@ -54,135 +29,66 @@ resource "aws_networkfirewall_rule_group" "drop_icmp_traffic_fw_rule_group" {
     }
   }
 
-}
-
-resource "aws_networkfirewall_rule_group" "pass_ssh_traffic_fw_rule_group" {
-  name     = "pass-ssh-traffic-fw-rule-group"
-  capacity = 100
-  type     = "STATELESS"
-
-  rule_group {
-    rules_source {
-      stateless_rules_and_custom_actions {
-        stateless_rule {
-          priority = 2
-          rule_definition {
-            actions = ["aws:pass"]
-            match_attributes {
-              protocols = [22]
-              source {
-                address_definition = "0.0.0.0/0"
-              }
-              destination {
-                address_definition = "10.0.1.0/24"
-              }
-            }
-          }
-        }
-      }
-    }
+  tags = {
+    Name = "cloudideastar-stateless-ip-rule-group-lab"
   }
-
 }
 
-resource "aws_networkfirewall_rule_group" "deny-http-domains" {
-  capacity = 100
-  name     = "deny-http-domains"
+resource "aws_networkfirewall_rule_group" "https-fw-rule" {
+  capacity = 1500
+  name     = "cloudideastar-https-fw-rule-group-lab"
   type     = "STATEFUL"
   rule_group {
     rules_source {
       rules_source_list {
-        generated_rules_type = "DENYLIST"
-        target_types         = ["HTTP_HOST"]
-        targets              = [
-          "info.cern.ch",
-          ".neverssl.com"
-        ]
-      }
-    }
-  }
-
- tags = {
-    "Name" = "deny-http-domains"
-  }
-}
-
-resource "aws_networkfirewall_rule_group" "deny-https-domains" {
-  capacity = 100
-  name     = "deny-https-domains"
-  type     = "STATEFUL"
-  rule_group {
-    rules_source {
-      rules_source_list {
-        generated_rules_type = "DENYLIST"
+        generated_rules_type = "ALLOWLIST"
         target_types         = ["HTTP_HOST", "TLS_SNI"]
-        targets              = [
-          ".facebook.com",
-          ".yahoo.com"
+        targets = [
+          for line in split("\n", local.stateful_https_domains_list_data) : trim(line, " \r")
         ]
       }
     }
-  }
-
-  tags = {
-    "Name" = "deny-https-domains"
-  }
-}
-
-resource "aws_networkfirewall_rule_group" "deny-http" {
-  capacity = 100
-  name     = "deny-http"
-  type     = "STATEFUL"
-  rule_group {
-    rules_source {
-      stateful_rule {
-        action = "DROP"
-        header {
-          destination      = aws_subnet.cloudideastar_public_subnet.cidr_block
-          destination_port = 80
-          direction        = "ANY"
-          protocol         = "HTTP"
-          source           = "0.0.0.0/0"
-          source_port      = "ANY"
-       }
-        rule_option {
-          keyword = "sid:1"
-        }
-      }
+    stateful_rule_options {
+      rule_order = "STRICT_ORDER"
     }
   }
 
   tags = {
-    "Name" = "deny-http"
+    Name = "cloudideastar-https-fw-rule-group-lab"
   }
 }
 
-
-resource "aws_networkfirewall_rule_group" "deny-ssh" {
-  capacity = 100
-  name     = "deny-ssh"
+resource "aws_networkfirewall_rule_group" "stateful-ip-rules" {
+  capacity = 1500
+  name     = "cloudideastar-stateful-ip-fw-rule-group-lab"
   type     = "STATEFUL"
   rule_group {
     rules_source {
-      stateful_rule {
-        action = "DROP"
-        header {
-          destination      = aws_subnet.cloudideastar_public_subnet.cidr_block
-          destination_port = 22
-          direction        = "ANY"
-          protocol         = "SSH"
-          source           = "0.0.0.0/0"
-          source_port      = "ANY"
-        }
-        rule_option {
-          keyword = "sid:1"
+      dynamic "stateful_rule" {
+        for_each = local.stateful_ip_rules_data
+        content {
+          action = stateful_rule.value.action
+          header {
+            destination      = stateful_rule.value.destination
+            destination_port = stateful_rule.value.destination_port
+            direction        = "ANY"
+            protocol         = stateful_rule.value.protocol
+            source           = stateful_rule.value.source
+            source_port      = stateful_rule.value.source_port
+          }
+          rule_option {
+            keyword  = "sid"
+            settings = [stateful_rule.key + 1]
+          }
         }
       }
+    }
+    stateful_rule_options {
+      rule_order = "STRICT_ORDER"
     }
   }
 
   tags = {
-    "Name" = "deny-ssh"
+    Name = "cloudideastar-stateful-ip-fw-rule-group-lab"
   }
 }
-
