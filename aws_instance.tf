@@ -16,7 +16,7 @@ resource "aws_instance" "ec2_Instance_01" {
   connection {
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file("/Users/phyowaiwin/mydev-boxes/python-dev-box/Terraform-stuffs/mediacorp/AWS/project02_fw_with_vm/testkeypair.pem")
+    private_key = file("/Users/testkeypair.pem")
     host        = aws_instance.ec2_Instance_01.public_ip
   }
 
